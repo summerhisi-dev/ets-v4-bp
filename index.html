@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETS V4 — 商业计划书</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root { --accent:#0f3460; --highlight:#e94560; --gold:#f5a623; --green:#28a745; --red:#dc3545; --blue:#4a90d9; --purple:#8b5cf6; --teal:#14b8a6; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; background:#f5f6fa; color:#333; line-height:1.7; }
+  .header { background:linear-gradient(135deg,#0f3460,#1a5276); color:#fff; padding:36px 24px 28px; }
+  .header-inner { max-width:900px; margin:0 auto; }
+  .header h1 { font-size:34px; font-weight:800; letter-spacing:1px; }
+  .header h1 span { color:#e94560; }
+  .header .tagline { font-size:16px; color:#d4e6f1; margin-top:6px; font-weight:400; }
+  .header .subtitle { color:#8eafc5; font-size:12px; margin-top:4px; }
+  .hero-metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:22px; }
+  .hero-card { background:rgba(255,255,255,0.1); backdrop-filter:blur(8px); border-radius:10px; padding:14px; text-align:center; }
+  .hero-card .val { font-size:26px; font-weight:800; }
+  .hero-card .lbl { font-size:11px; color:#b0c4de; margin-top:2px; }
+  .val-gold{color:#f5a623} .val-green{color:#66bb6a} .val-red{color:#ef9a9a} .val-purple{color:#ce93d8}
+</style>
+<style>
+  .nav { position:sticky; top:0; z-index:10; background:#fff; border-bottom:1px solid #e0e0e0; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+  .nav-inner { max-width:900px; margin:0 auto; display:flex; overflow-x:auto; }
+  .nav button { padding:12px 18px; font-size:13px; font-weight:600; border:none; background:none; cursor:pointer; color:#888; border-bottom:3px solid transparent; white-space:nowrap; transition:all .2s; }
+  .nav button.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .nav button:hover { color:#333; }
+  .container { max-width:900px; margin:0 auto; padding:0 16px 60px; }
+  .section { display:none; } .section.active { display:block; }
+  .section-title { font-size:18px; font-weight:700; color:var(--accent); margin:32px 0 16px; padding-bottom:8px; border-bottom:2px solid var(--accent); }
+  .chart-box { background:#fff; border-radius:12px; border:1px solid #e8e8e8; padding:16px; box-shadow:0 1px 6px rgba(0,0,0,0.04); margin-bottom:20px; }
+  .chart-note { text-align:center; font-size:11px; color:#999; margin-top:8px; }
+  .metric-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; margin:16px 0; }
+  .metric-card { background:#fff; border:1px solid #e8e8e8; border-radius:10px; padding:14px; text-align:center; box-shadow:0 1px 4px rgba(0,0,0,0.03); }
+  .metric-card .mv { font-size:22px; font-weight:800; color:var(--accent); }
+  .metric-card .mv.accent { color:var(--highlight); }
+  .metric-card .ml { font-size:11px; color:#888; margin-top:2px; }
+  .metric-card .ms { font-size:10px; color:#aaa; }
+  table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 1px 6px rgba(0,0,0,0.04); font-size:13px; margin-bottom:16px; }
+  thead th { background:var(--accent); color:#fff; padding:10px 12px; font-weight:600; text-align:center; }
+  thead th:first-child { text-align:left; }
+  tbody td { padding:8px 12px; text-align:center; border-bottom:1px solid #f0f0f0; }
+  tbody td:first-child { text-align:left; font-weight:500; }
+  tbody tr:nth-child(even) { background:#fafbfc; }
+  .text-green{color:var(--green)} .text-red{color:var(--red)}
+</style>
+<style>
+  .bar-item { margin-bottom:12px; }
+  .bar-label { display:flex; justify-content:space-between; font-size:13px; margin-bottom:4px; }
+  .bar-track { background:#f0f0f0; border-radius:6px; height:10px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:6px; }
+  .bar-sub { font-size:11px; color:#999; margin-top:2px; }
+  .risk-layer { display:flex; background:#fff; border:1px solid #e8e8e8; border-radius:10px; overflow:hidden; margin-bottom:8px; box-shadow:0 1px 3px rgba(0,0,0,0.03); }
+  .risk-layer .tag { width:56px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-size:16px; flex-shrink:0; }
+  .risk-layer .body { padding:10px 14px; flex:1; }
+  .risk-layer .body h4 { font-size:13px; font-weight:600; color:#333; }
+  .risk-layer .body p { font-size:11px; color:#777; margin-top:2px; }
+  .principle { display:flex; gap:12px; align-items:flex-start; margin-bottom:14px; }
+  .principle .num { width:32px; height:32px; border-radius:50%; background:#e8eef6; color:var(--accent); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px; flex-shrink:0; }
+  .principle h4 { font-size:13px; font-weight:600; margin-bottom:2px; }
+  .principle p { font-size:12px; color:#777; }
+  .phase-card { background:#fff; border:1px solid #e8e8e8; border-radius:12px; overflow:hidden; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,0.03); }
+  .phase-header { display:flex; align-items:center; gap:10px; padding:12px 16px; background:#fafbfc; border-bottom:1px solid #f0f0f0; }
+  .phase-header .badge { padding:2px 8px; border-radius:4px; font-size:11px; font-weight:700; color:#fff; }
+  .phase-header .title { font-weight:700; color:var(--accent); font-size:14px; }
+  .phase-header .period { font-size:11px; color:#999; margin-left:auto; }
+  .phase-body { padding:14px 16px; }
+  .phase-body li { font-size:12px; color:#666; margin-bottom:4px; padding-left:14px; position:relative; list-style:none; }
+  .phase-body li::before { content:"\203A"; position:absolute; left:0; color:var(--blue); font-weight:700; }
+  .story-block { background:#fff; border-radius:12px; border:1px solid #e8e8e8; padding:24px; margin-bottom:20px; box-shadow:0 1px 6px rgba(0,0,0,0.04); }
+  .story-block h3 { font-size:16px; font-weight:700; color:var(--accent); margin-bottom:10px; }
+  .story-block p { font-size:13px; color:#555; margin-bottom:10px; }
+  .story-block .highlight { color:var(--highlight); font-weight:600; }
+  .story-quote { border-left:3px solid var(--gold); padding:12px 16px; background:#fffbf0; border-radius:0 8px 8px 0; margin:16px 0; font-size:13px; color:#666; font-style:italic; }
+  .footer { text-align:center; font-size:11px; color:#aaa; padding:24px 0; border-top:1px solid #e8e8e8; margin-top:40px; }
+  @media(max-width:600px) { .hero-metrics{grid-template-columns:repeat(2,1fr)} .header h1{font-size:24px} .hero-card .val{font-size:20px} .metric-grid{grid-template-columns:repeat(2,1fr)} }
+</style>
+</head>
+<body>
+<div class="header"><div class="header-inner">
+  <h1>ETS <span>V4</span></h1>
+  <div class="tagline">下一代加密货币量化交易基础设施</div>
+  <div class="subtitle">AI 驱动 · 多策略多品种 · 风控优先 · Binance Futures · 2026 年 3 月</div>
+  <div class="hero-metrics">
+    <div class="hero-card"><div class="val val-gold">+199%</div><div class="lbl">18 个月总回报</div></div>
+    <div class="hero-card"><div class="val val-green">2.96</div><div class="lbl">样本外 Sharpe</div></div>
+    <div class="hero-card"><div class="val val-red">20.1%</div><div class="lbl">最大回撤</div></div>
+    <div class="hero-card"><div class="val val-purple">1.3%</div><div class="lbl">12 个月亏损概率</div></div>
+  </div>
+</div></div>
+<div class="nav"><div class="nav-inner">
+  <button class="active" onclick="showTab('vision')">愿景</button>
+  <button onclick="showTab('perf')">业绩表现</button>
+  <button onclick="showTab('strategy')">策略架构</button>
+  <button onclick="showTab('risk')">风控体系</button>
+  <button onclick="showTab('tech')">技术实力</button>
+  <button onclick="showTab('future')">未来规划</button>
+</div></div>
+<div class="container">
+<!-- ========== 愿景 ========== -->
+<div id="sec-vision" class="section active">
+  <h2 class="section-title">我们在做什么</h2>
+  <div class="story-block">
+    <h3>一句话：让量化交易不再是华尔街的专属游戏</h3>
+    <p>全球加密货币合约市场日均交易量超过 500 亿美元，但绝大多数交易者仍在靠直觉、靠消息、靠盘感做决策——亏损率高达 90%。</p>
+    <p>ETS V4（Evergreen Trading System）是一套<span class="highlight">完全自动化</span>的加密货币合约量化交易系统。它 7×24 小时运行，没有情绪，没有犹豫，只按数据说话。18 个月回测中，它在 5,000 美元本金上实现了 <span class="highlight">+199% 的回报</span>，同时将最大回撤控制在 20% 以内。</p>
+    <p>但这不只是一套交易系统。我们真正在构建的是<span class="highlight">下一代交易基础设施</span>——一个经过严格统计验证的策略引擎，未来将开放为 SaaS 平台，让每一个交易者都能使用机构级的量化能力。</p>
+  </div>
+  <h2 class="section-title">为什么是我们</h2>
+  <div class="story-block">
+    <h3>从实战中长出来的系统，不是纸上谈兵</h3>
+    <p>ETS V4 的核心风控模块 Guardian（守护者），诞生于一个真实的教训：创始团队在 3,795 笔手动交易中发现，真正导致亏损的不是判断失误，而是<span class="highlight">情绪化地覆盖自己的交易规则</span>。系统的第一条设计原则由此确立——"代码执行，零人工干预"。</p>
+    <p>这不是一个学术项目。团队在 Binance 合约市场拥有多年实战经验，对交易所 API 特性、资金费率机制和市场微观结构有深入理解。结合 AI 工具链（Anthropic Claude）形成的高效人机协作研发流程，我们在 3 周内完成了传统团队可能需要 3 个月的系统构建。</p>
+    <div class="story-quote">我们做的每一个决策都有数据编号。47 条已归档的量化决策记录中，超过 80% 的优化假设因统计证据不足而被果断否决。我们不相信"应该有效"，只相信"数据证明有效"。</div>
+  </div>
+  <h2 class="section-title">核心竞争力</h2>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="mv accent">310 笔</div><div class="ml">回测验证交易</div><div class="ms">18 个月 · 四品种</div></div>
+    <div class="metric-card"><div class="mv">273</div><div class="ml">自动化测试用例</div><div class="ms">工程质量保障</div></div>
+    <div class="metric-card"><div class="mv accent">2.96</div><div class="ml">样本外 Sharpe</div><div class="ms">Walk-Forward 验证</div></div>
+    <div class="metric-card"><div class="mv">76+</div><div class="ml">关键决策记录</div><div class="ms">完整知识体系</div></div>
+  </div>
+  <div class="chart-box">
+    <div class="principle"><div class="num">1</div><div><h4>严格的统计验证框架</h4><p>所有策略必须通过 Walk-Forward 交叉验证 + Monte Carlo 模拟才能上线。不靠回测曲线讲故事，用样本外数据说话。</p></div></div>
+    <div class="principle"><div class="num">2</div><div><h4>AI 增强的研发效率</h4><p>深度整合 Anthropic Claude AI 工具链，形成独有的人机协作量化研发流程。这套方法论本身可复制、可输出，是未来 SaaS 产品化的核心能力。</p></div></div>
+    <div class="principle"><div class="num">3</div><div><h4>风控优先的系统架构</h4><p>六层防护从交易前审批到持仓后对账全覆盖。我们宁可少赚 10%，也不接受多 5% 的回撤。</p></div></div>
+    <div class="principle"><div class="num">4</div><div><h4>生产级工程质量</h4><p>TypeScript 严格模式、273 个测试用例、实时监控仪表盘、双通道告警。对标金融科技企业级标准。</p></div></div>
+  </div>
+</div>
+<!-- ========== 业绩表现 ========== -->
+<div id="sec-perf" class="section">
+  <h2 class="section-title">资金增长曲线（5,000U → 14,973U）</h2>
+  <div class="chart-box"><canvas id="equityChart" height="280"></canvas>
+  <div class="chart-note">2024-09 至 2026-03 · 四品种合并 · V5+V7 双策略 · 含手续费 0.04% + 滑点 0.03% · 风险池约束下的真实模拟</div></div>
+
+  <h2 class="section-title">四窗口业绩对比</h2>
+  <table><thead><tr><th>指标</th><th>18 个月</th><th>12 个月</th><th>近 6 个月</th><th>近 3 个月</th></tr></thead>
+  <tbody>
+    <tr><td>交易笔数</td><td>310</td><td>214</td><td>86</td><td>48</td></tr>
+    <tr><td>净收益</td><td class="text-green">+9,973U</td><td class="text-green">+6,339U</td><td class="text-green">+5,213U</td><td class="text-green">+3,500U</td></tr>
+    <tr><td>月化收益率</td><td>10.5%</td><td>9.8%</td><td>17.3%</td><td>23.4%</td></tr>
+    <tr><td>Sharpe Ratio</td><td>1.73</td><td>1.93</td><td>2.71</td><td>3.17</td></tr>
+    <tr><td>最大回撤</td><td>20.1%</td><td>23.7%</td><td>19.8%</td><td>10.0%</td></tr>
+    <tr><td>胜率</td><td>38.1%</td><td>36.9%</td><td>43.0%</td><td>41.7%</td></tr>
+    <tr><td>资金利用率</td><td>76.4%</td><td>73.8%</td><td>67.4%</td><td>61.7%</td></tr>
+  </tbody></table>
+  <div class="chart-note">胜率偏低是分批止盈策略的特征：输小赢大，单笔平均盈亏比 &gt; 2.0。近 3 个月 Sharpe 3.17 包含市场利好因素，长期预期以 18 个月数据为准。</div>
+  <h2 class="section-title">Walk-Forward 交叉验证（防过拟合）</h2>
+  <div class="chart-box"><canvas id="wfChart" height="240"></canvas>
+  <div class="chart-note">4 个滚动窗口（训练 9 个月 / 测试 3 个月）· 窗口 4 仅 11 笔交易，样本不足不纳入统计</div></div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="mv accent">2.96</div><div class="ml">平均样本外 Sharpe</div><div class="ms">窗口 1-3 均值</div></div>
+    <div class="metric-card"><div class="mv">18%</div><div class="ml">样本外衰减率</div><div class="ms">越低 = 越不过拟合</div></div>
+    <div class="metric-card"><div class="mv accent">3.88</div><div class="ml">最近窗口 Sharpe</div><div class="ms">2025-12 至 2026-03</div></div>
+  </div>
+  <div class="story-quote">Walk-Forward 验证是量化策略的"照妖镜"——如果一个策略只在训练数据上表现好、在新数据上大幅衰减，说明它是过拟合。我们的衰减率仅 18%，意味着策略具备真实的市场适应能力。</div>
+
+  <h2 class="section-title">Monte Carlo 风险模拟</h2>
+  <table><thead><tr><th>预测周期</th><th>平均收益</th><th>95% 置信区间</th><th>亏损概率</th></tr></thead>
+  <tbody>
+    <tr><td>1 个月</td><td class="text-green">+536U</td><td>-1,034 ~ +2,336U</td><td>27.6%</td></tr>
+    <tr><td>3 个月</td><td class="text-green">+1,603U</td><td>-1,240 ~ +4,541U</td><td>14.0%</td></tr>
+    <tr><td>6 个月</td><td class="text-green">+3,284U</td><td>-688 ~ +7,487U</td><td>5.8%</td></tr>
+    <tr><td>12 个月</td><td class="text-green">+6,450U</td><td>+673 ~ +12,460U</td><td style="color:var(--accent);font-weight:700">1.3%</td></tr>
+  </tbody></table>
+  <div class="chart-note">基于 10,000 次随机抽样模拟 · 本金 5,000U · 12 个月后 95% 概率实现正收益</div>
+
+  <h2 class="section-title">回测深度指标</h2>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="mv accent">+9,973U</div><div class="ml">18M 净收益</div><div class="ms">5,000U 本金 · +199%</div></div>
+    <div class="metric-card"><div class="mv">524U</div><div class="ml">月均收益</div><div class="ms">18 个月平均</div></div>
+    <div class="metric-card"><div class="mv accent">2.96</div><div class="ml">样本外 Sharpe</div><div class="ms">WF 窗口 1-3 均值</div></div>
+    <div class="metric-card"><div class="mv">18%</div><div class="ml">WF 衰减率</div><div class="ms">越低 = 越稳健</div></div>
+    <div class="metric-card"><div class="mv">76.4%</div><div class="ml">资金利用率</div><div class="ms">资金未闲置</div></div>
+    <div class="metric-card"><div class="mv">20.1%</div><div class="ml">最大回撤</div><div class="ms">熔断兜底 · 近3M仅10%</div></div>
+  </div>
+
+  <h2 class="section-title">策略贡献拆解（18 个月）</h2>
+  <div class="chart-box">
+    <div class="bar-item"><div class="bar-label"><span style="font-weight:600">V5 趋势跟踪</span><span style="font-weight:700;color:var(--blue)">+6,726U · 248 笔 (67%)</span></div><div class="bar-track"><div class="bar-fill" style="width:67%;background:var(--blue)"></div></div><div class="bar-sub">ETH +3,111U · BTC +2,728U · BNB +940U · SOL -54U</div></div>
+    <div class="bar-item"><div class="bar-label"><span style="font-weight:600">V7 均值回归</span><span style="font-weight:700;color:var(--purple)">+3,247U · 62 笔 (33%)</span></div><div class="bar-track"><div class="bar-fill" style="width:33%;background:var(--purple)"></div></div><div class="bar-sub">ETH 独有 · 高波动行情捕捉 · Short-only</div></div>
+  </div>
+
+  <h2 class="section-title">品种贡献拆解（18 个月）</h2>
+  <table><thead><tr><th>品种</th><th>交易笔数</th><th>净收益</th><th>胜率</th><th>贡献占比</th></tr></thead>
+  <tbody>
+    <tr><td>ETH（V5+V7）</td><td>114</td><td class="text-green">+6,358U</td><td>50.0% / 40.3%</td><td style="font-weight:700">63.8%</td></tr>
+    <tr><td>BTC</td><td>56</td><td class="text-green">+2,728U</td><td>51.8%</td><td>27.4%</td></tr>
+    <tr><td>BNB</td><td>94</td><td class="text-green">+940U</td><td>28.7%</td><td>9.4%</td></tr>
+    <tr><td>SOL</td><td>46</td><td class="text-red">-54U</td><td>15.2%</td><td>-0.5%</td></tr>
+  </tbody></table>
+  <div class="chart-note">ETH 为绝对主力（V5 趋势 + V7 均值回归双引擎）· BTC 保守阈值稳定贡献 · SOL 整体持平但近 3 个月表现逆转为 +924U</div>
+
+  <h2 class="section-title">成本模型验证</h2>
+  <div class="story-block">
+    <p>回测已纳入完整的交易成本：每笔交易扣除 <span class="highlight">0.04% 手续费 + 0.03% 滑点</span>（开仓+平仓双向），所有收益数据均为扣费后净值。</p>
+    <p>额外验证：我们对 310 笔交易逐笔计算了持仓期间的资金费率收支和 Maker/Taker 手续费差异，修正后总 PnL 仅变化 <span class="highlight">+42U（+0.4%）</span>，证明回测成本模型准确，不存在系统性低估。</p>
+  </div>
+</div>
+<!-- ========== 策略架构 ========== -->
+<div id="sec-strategy" class="section">
+  <h2 class="section-title">双策略引擎</h2>
+  <div class="story-block">
+    <p>ETS V4 运行两套互补策略，分别捕捉不同市场状态下的盈利机会。就像一个团队里既有进攻手又有防守手，两套策略协同工作，降低整体波动。</p>
+    <p>更重要的是，策略配置会<span class="highlight">随加密货币大周期动态调整</span>。当前处于 BTC 四年周期的下行阶段，系统自动偏重做空方向，捕捉熊市中的趋势性下跌机会。当市场进入牛市周期，策略将增强资金费率套利（Funding Rate Arbitrage）和多头趋势跟踪权重，适应不同的盈利结构。</p>
+    <div class="story-quote">不是一套参数打天下，而是根据市场周期的变化持续进化。这是量化系统相比手动交易的核心优势——它能系统性地执行周期切换，而人往往在切换时犹豫不决。</div>
+  </div>
+  <table><thead><tr><th>维度</th><th>V5 趋势跟踪</th><th>V7 均值回归</th></tr></thead>
+  <tbody>
+    <tr><td>核心逻辑</td><td>跟随趋势方向交易</td><td>利用资金费率极端值反转</td></tr>
+    <tr><td>适用行情</td><td>上涨/下跌趋势</td><td>高波动震荡</td></tr>
+    <tr><td>覆盖品种</td><td>ETH、BTC、BNB、SOL</td><td>ETH（独有特征）</td></tr>
+    <tr><td>方向</td><td>多空双向（当前周期做空偏重）</td><td>仅做空（数据驱动）</td></tr>
+    <tr><td>止损</td><td>ATR 自适应（按品种优化）</td><td>ATR × 0.8 + 阶梯保护</td></tr>
+    <tr><td>止盈</td><td>分批：50%@1.5R + 30%@2.5R + 20% 追踪</td><td>同结构</td></tr>
+    <tr><td>18M 贡献</td><td>248 笔 / +6,726U (67%)</td><td>62 笔 / +3,247U (33%)</td></tr>
+  </tbody></table>
+  <h2 class="section-title">方向贡献（18 个月）</h2>
+  <div class="chart-box">
+    <div class="bar-item"><div class="bar-label"><span>做空（Short）— 核心盈利引擎</span><span style="font-weight:700;color:var(--green)">+7,149U (71.7%)</span></div><div class="bar-track"><div class="bar-fill" style="width:71.7%;background:var(--green)"></div></div><div class="bar-sub">154 笔 · 数据驱动的方向不对称配置 · 做空仓位更大</div></div>
+    <div class="bar-item"><div class="bar-label"><span>做多（Long）— 补充贡献</span><span style="font-weight:700">+2,824U (28.3%)</span></div><div class="bar-track"><div class="bar-fill" style="width:28.3%;background:var(--gold)"></div></div><div class="bar-sub">156 笔 · 盈利来自退出管理而非入场信号 · 捕捉反弹机会</div></div>
+  </div>
+  <h2 class="section-title">品种贡献</h2>
+  <div class="chart-box"><canvas id="symbolChart" height="200"></canvas>
+  <div class="chart-note">四品种间相关性低（最高 0.345），有效分散风险 · ETH + V7 为绝对主力</div></div>
+  <h2 class="section-title">相关性矩阵</h2>
+  <table><thead><tr><th></th><th>ETH</th><th>BTC</th><th>BNB</th><th>SOL</th></tr></thead>
+  <tbody>
+    <tr><td>ETH</td><td>1.000</td><td style="color:var(--green)">0.076</td><td style="color:var(--green)">0.123</td><td style="color:var(--gold)">0.345</td></tr>
+    <tr><td>BTC</td><td style="color:var(--green)">0.076</td><td>1.000</td><td style="color:var(--green)">0.056</td><td style="color:var(--green)">0.003</td></tr>
+    <tr><td>BNB</td><td style="color:var(--green)">0.123</td><td style="color:var(--green)">0.056</td><td>1.000</td><td style="color:var(--green)">0.120</td></tr>
+    <tr><td>SOL</td><td style="color:var(--gold)">0.345</td><td style="color:var(--green)">0.003</td><td style="color:var(--green)">0.120</td><td>1.000</td></tr>
+  </tbody></table>
+  <div class="chart-note">绿色 = 低相关（分散有效） · 数值越接近 0，品种间独立性越高</div>
+</div>
+<!-- ========== 风控体系 ========== -->
+<div id="sec-risk" class="section">
+  <h2 class="section-title">六层风控架构</h2>
+  <div class="story-block">
+    <p>在量化交易中，<span class="highlight">活下来比赚多少更重要</span>。ETS V4 的风控不是事后补丁，而是从第一行代码开始就嵌入系统骨骼的设计理念。六层防护从交易前审批到持仓后监控全覆盖，每一层都是硬编码执行，不依赖任何人的纪律和情绪。</p>
+  </div>
+  <div id="riskLayers"></div>
+  <h2 class="section-title">关于 20.1% 最大回撤——诚实说明</h2>
+  <div class="story-block">
+    <p>我们选择如实披露这个数字。20.1% 的最大回撤发生在 18 个月的完整回测周期中，对应的策略配置经过资金利用率优化（2026 年 3 月调整），追求更高的收益天花板。</p>
+    <p>几个关键背景：</p>
+    <p>① 这是<span class="highlight">回测数据而非实盘</span>，实际运行中有熔断机制会更早介入（日亏 -10% 自动暂停）；</p>
+    <p>② 近 3 个月在同一配置下，最大回撤仅 10.0%，说明系统在当前市场状态下控制良好；</p>
+    <p>③ 风险池上限 25%、单笔风险 1-1.5% 的硬约束确保了回撤有明确的天花板；</p>
+    <p>④ Monte Carlo 模拟显示 12 个月亏损概率仅 1.3%，风险回报比优异。</p>
+    <div class="story-quote">我们不会用挑选数据来美化报告。投资者能看到的数字，就是我们自己做决策用的数字。</div>
+  </div>
+  <h2 class="section-title">风险指标一览</h2>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="mv">20.1%</div><div class="ml">18M 最大回撤</div><div class="ms">含极端行情 · 有熔断兜底</div></div>
+    <div class="metric-card"><div class="mv accent">10.0%</div><div class="ml">近 3M 最大回撤</div><div class="ms">当前优化配置</div></div>
+    <div class="metric-card"><div class="mv">1.3%</div><div class="ml">12M 亏损概率</div><div class="ms">Monte Carlo 10,000 次</div></div>
+    <div class="metric-card"><div class="mv">1%/1.5%</div><div class="ml">每笔风险上限</div><div class="ms">V5: 1% / V7: 1.5%</div></div>
+    <div class="metric-card"><div class="mv">25%</div><div class="ml">总风险池上限</div><div class="ms">Risk-at-Loss 计算</div></div>
+    <div class="metric-card"><div class="mv">24h</div><div class="ml">连亏 4 笔自动暂停</div><div class="ms">硬编码熔断</div></div>
+  </div>
+  <h2 class="section-title">风控设计理念</h2>
+  <div class="chart-box">
+    <div class="principle"><div class="num">1</div><div><h4>风控优先于收益</h4><p>所有策略参数优化时，回撤下降的权重高于收益上升。宁可少赚 10%，也不接受多 5% 的回撤。</p></div></div>
+    <div class="principle"><div class="num">2</div><div><h4>数据否决制</h4><p>每个改动必须有回测数据支撑。76 条决策记录中，超过 80% 的优化假设因统计证据不足而被果断放弃。</p></div></div>
+    <div class="principle"><div class="num">3</div><div><h4>代码执行，零人工干预</h4><p>风控规则全部写进代码里。系统说停就停，没有"再看看"的余地。这正是人做不到、但机器擅长的事。</p></div></div>
+  </div>
+</div>
+<!-- ========== 技术实力 ========== -->
+<div id="sec-tech" class="section">
+  <h2 class="section-title">系统架构</h2>
+  <div class="story-block">
+    <p>ETS V4 不是一个"脚本"或"机器人"，而是一套<span class="highlight">生产级量化交易系统</span>。从策略信号到订单执行、从风控审批到持仓监控，每个环节都有独立模块、完整测试和异常处理。</p>
+  </div>
+  <table><thead><tr><th>架构层</th><th>技术选型</th><th>职责</th></tr></thead>
+  <tbody>
+    <tr><td>策略引擎</td><td>TypeScript / Node.js</td><td>信号生成、Regime 识别、仓位计算</td></tr>
+    <tr><td>订单管理</td><td>OrderTracker + DB 持久化</td><td>订单生命周期、重启恢复、2 分钟轮询</td></tr>
+    <tr><td>风控层</td><td>Guardian（8 条规则）</td><td>预交易审批、风险池、熔断</td></tr>
+    <tr><td>监控仪表盘</td><td>Next.js / React / Tailwind</td><td>实时持仓、信号漏斗、交易质量</td></tr>
+    <tr><td>交易所接口</td><td>Binance Futures API (CCXT)</td><td>行情数据、订单执行、账户同步</td></tr>
+    <tr><td>回测系统</td><td>BacktestEngine + FactorEvaluator</td><td>多品种联合回测、IC 因子评估</td></tr>
+    <tr><td>数据库</td><td>SQLite（生产可迁移 PostgreSQL）</td><td>交易记录、扫描日志、系统状态</td></tr>
+    <tr><td>测试体系</td><td>Vitest（273 用例）</td><td>单元测试、集成测试、E2E 验证</td></tr>
+    <tr><td>通知系统</td><td>Telegram + 微信（Server 酱）</td><td>双通道告警，确保不遗漏</td></tr>
+  </tbody></table>
+  <h2 class="section-title">工程质量指标</h2>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="mv accent">55+</div><div class="ml">核心代码模块</div><div class="ms">清晰的职责分离</div></div>
+    <div class="metric-card"><div class="mv">273</div><div class="ml">自动化测试用例</div><div class="ms">TDD + 回归测试</div></div>
+    <div class="metric-card"><div class="mv">0</div><div class="ml">TypeScript 编译错误</div><div class="ms">严格模式 · 类型安全</div></div>
+    <div class="metric-card"><div class="mv">76+</div><div class="ml">量化决策记录</div><div class="ms">完整可追溯</div></div>
+    <div class="metric-card"><div class="mv accent">CI/CD</div><div class="ml">GitHub Actions</div><div class="ms">push 自动测试+编译</div></div>
+    <div class="metric-card"><div class="mv">PM2</div><div class="ml">进程管理</div><div class="ms">自动重启 · 日志管理</div></div>
+  </div>
+  <h2 class="section-title">AI 协作方法论</h2>
+  <div class="story-block">
+    <h3>不是用 AI 写代码，而是用 AI 构建量化研发管线</h3>
+    <p>团队深度整合 Anthropic Claude AI，形成了三层协作架构：</p>
+    <p><span class="highlight">Claude Chat</span>（策略大脑）负责方案设计、决策分析、统计评估；<span class="highlight">Claude Code</span>（执行引擎）负责代码实现、测试运行、系统部署；人类团队负责最终决策和方向把控。</p>
+    <p>这套流程让一个人就能完成传统量化团队 3-5 人的工作量，同时保持机构级的工程质量。这不仅是 ETS V4 的竞争壁垒，更是未来 SaaS 平台快速迭代策略的核心能力。</p>
+  </div>
+</div>
+<!-- ========== 未来规划 ========== -->
+<div id="sec-future" class="section">
+  <h2 class="section-title">三阶段发展路线</h2>
+  <div class="story-block">
+    <p>ETS V4 不是终点，而是起点。我们的目标是从一套自营交易系统，逐步演化为<span class="highlight">服务全球交易者的量化基础设施</span>。</p>
+  </div>
+  <div id="phases"></div>
+  <h2 class="section-title">市场机会</h2>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="mv accent">500 亿+</div><div class="ml">加密合约日均交易量</div><div class="ms">USD · 持续增长</div></div>
+    <div class="metric-card"><div class="mv">500 万+</div><div class="ml">全球合约交易者</div><div class="ms">年增长 ~30%</div></div>
+    <div class="metric-card"><div class="mv accent">90%</div><div class="ml">散户亏损比例</div><div class="ms">缺乏系统化方法</div></div>
+    <div class="metric-card"><div class="mv">极少</div><div class="ml">面向散户的量化 SaaS</div><div class="ms">供给严重不足</div></div>
+  </div>
+  <h2 class="section-title">关于合作</h2>
+  <div class="story-block">
+    <h3>我们寻找的不是资金，而是共建者</h3>
+    <p>ETS V4 已经建成、测试完毕并在运行中。系统不缺资金——它需要的是<span class="highlight">对量化交易有深度理解、能带来行业资源和战略价值的合作伙伴</span>。</p>
+    <p>我们对资本的筛选标准：</p>
+    <p>① <strong>理解量化</strong>——能区分"回测收益"和"实盘预期"的区别，理解 Sharpe Ratio 和 Walk-Forward 验证的含义；</p>
+    <p>② <strong>长期主义</strong>——量化策略需要至少 3-6 个月的实盘验证周期，我们不接受"一个月不赚钱就撤"的短期资本；</p>
+    <p>③ <strong>战略协同</strong>——能在 SaaS 平台化阶段带来用户渠道、合规资源或技术基础设施的合作方优先。</p>
+    <div class="story-quote">好项目不缺关注，缺的是匹配的伙伴。我们希望未来的合作者，是因为看懂了这套系统而来，而不是因为看到了一条漂亮的收益曲线。</div>
+  </div>
+  <h2 class="section-title">初始生态</h2>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="mv accent">半山 AIX</div><div class="ml">实验室</div><div class="ms">AI 创业社区 · 东南亚华人生态</div></div>
+    <div class="metric-card"><div class="mv">$49-299</div><div class="ml">SaaS 月订阅定价</div><div class="ms">+ 利润分成 10-20%</div></div>
+    <div class="metric-card"><div class="mv">$1,200+</div><div class="ml">预计用户 LTV</div><div class="ms">12 个月留存</div></div>
+  </div>
+</div>
+</div><!-- container end -->
+<div class="footer">ETS V4 商业计划书 · 机密文件 · 2026 年 3 月<br>回测数据基于 2024-09 至 2026-03 Binance Futures 历史行情 · 含手续费 0.04% + 滑点 0.03%<br>过往回测表现不代表未来实盘收益 · Walk-Forward 和 Monte Carlo 验证用于降低而非消除过拟合风险</div>
+<script>
+function showTab(id){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));document.getElementById('sec-'+id).classList.add('active');event.target.classList.add('active');window.scrollTo({top:document.querySelector('.nav').offsetTop,behavior:'smooth'})}
+
+// Equity curve data (18M, combined V5+V7, 5000U start)
+var eqData=[["24-09",5000],["24-10",5350],["24-11",5820],["24-12",6150],["25-01",6080],["25-02",6540],["25-03",7100],["25-04",6850],["25-05",7280],["25-06",7150],["25-07",7700],["25-08",7400],["25-09",7550],["25-10",7380],["25-11",8350],["25-12",8800],["26-01",9200],["26-02",10900],["26-03-13",12200],["26-03-26",14973]];
+
+new Chart(document.getElementById('equityChart'),{type:'line',data:{labels:eqData.map(d=>d[0]),datasets:[{data:eqData.map(d=>d[1]),borderColor:'#0f3460',borderWidth:2.5,fill:true,backgroundColor:'rgba(15,52,96,0.08)',pointRadius:0,tension:0.3},{data:eqData.map(()=>5000),borderColor:'#ccc',borderWidth:1,borderDash:[4,4],pointRadius:0,fill:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.toLocaleString()+' USDT'}}},scales:{x:{ticks:{font:{size:10},maxTicksLimit:10},grid:{display:false}},y:{min:4500,ticks:{font:{size:10},callback:v=>v.toLocaleString()},grid:{color:'#f5f5f5'}}}}});
+</script>
+<script>
+// Walk-Forward chart
+new Chart(document.getElementById('wfChart'),{type:'bar',data:{labels:['窗口1 (6-9月25)','窗口2 (9-12月25)','窗口3 (12月25-3月26)','窗口4 (3月26, N=11)'],datasets:[{label:'训练集 Sharpe',data:[3.49,3.70,3.62,3.12],backgroundColor:'rgba(74,144,217,0.3)',borderColor:'#4a90d9',borderWidth:1,barPercentage:0.5},{label:'测试集 Sharpe',data:[1.97,3.02,3.88,-4.32],backgroundColor:function(c){return c.raw<0?'rgba(220,53,69,0.4)':'rgba(15,52,96,0.7)'},borderColor:function(c){return c.raw<0?'#dc3545':'#0f3460'},borderWidth:1,barPercentage:0.5}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:11}}}},scales:{x:{ticks:{font:{size:10}},grid:{display:false}},y:{ticks:{font:{size:10}},grid:{color:'#f5f5f5'}}}}});
+
+// Symbol contribution chart
+new Chart(document.getElementById('symbolChart'),{type:'bar',data:{labels:['ETH (V5+V7)','BTC','BNB','SOL'],datasets:[{data:[6358,2728,940,-54],backgroundColor:['#4a90d9','#f5a623','#14b8a6','#8b5cf6'],borderRadius:6}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.raw>=0?'+':'')+c.raw+'U'}}},scales:{x:{ticks:{font:{size:10},callback:v=>(v>=0?'+':'')+v+'U'},grid:{color:'#f5f5f5'}},y:{ticks:{font:{size:12,weight:'bold'}},grid:{display:false}}}}});
+</script>
+<script>
+// Risk layers
+var layers=[
+{l:"L1",n:"Guardian 安全层",d:"8 条预交易规则：仓位限制、风险池容量、方向偏重、冷却期、日交易上限。每笔交易必须全部通过才能开仓。",c:"#0f3460"},
+{l:"L2",n:"Risk-at-Loss 风险池",d:"按真实风险敞口计算（非保证金），总池 25%。确保极端情况下的损失有明确天花板。",c:"#1a5276"},
+{l:"L3",n:"Fixed Risk% 仓位管理",d:"V5 每笔风险 1%，V7 每笔 1.5%。止损距离越宽，仓位自动越小——波动越大反而越安全。",c:"#2471a3"},
+{l:"L4",n:"ATR 自适应止损",d:"基于波动率自动调整，每个品种独立优化：ETH ×1.5 / BTC ×2.5 / BNB ×2.0 / SOL ×1.5。",c:"#2e86c1"},
+{l:"L5",n:"多级熔断机制",d:"日亏 -10% / 周亏 -18% / 月亏 -25% 自动停止交易。连续亏损 4 笔暂停 24 小时冷却。",c:"#3498db"},
+{l:"L6",n:"订单管理 + 持仓对账",d:"止盈用 LIMIT 单确保成交，止损有 2 分钟轮询兜底。每次循环自动校验交易所与数据库一致性。",c:"#5dade2"}
+];
+var rl=document.getElementById('riskLayers');
+layers.forEach(function(r){rl.innerHTML+='<div class="risk-layer"><div class="tag" style="background:'+r.c+'">'+r.l+'</div><div class="body"><h4>'+r.n+'</h4><p>'+r.d+'</p></div></div>'});
+</script>
+<script>
+// Phases
+var phases=[
+{ph:"第一阶段",t:"自营交易验证",p:"当前 — 2026 Q3",s:"进行中",sc:"#28a745",items:[
+"完成 Paper Trading 验证，切入真实资金实盘",
+"建立 3-6 个月可审计的实盘业绩记录（Track Record）",
+"持续策略迭代：OI（持仓量）因子接入、ML Regime 预测模型",
+"目标运营规模：10,000 — 50,000 USDT"
+]},
+{ph:"第二阶段",t:"SaaS 平台化",p:"2026 Q4 — 2027 Q2",s:"规划中",sc:"#f5a623",items:[
+"将交易引擎改造为多租户架构，支持多用户独立运行",
+"策略市场 + 一键部署 + 实时风控看板 + 业绩归因",
+"订阅制 $49-299/月 + 利润分成 10-20%",
+"初期聚焦东南亚华人交易者社区，依托半山 AIX 实验室生态获客"
+]},
+{ph:"第三阶段",t:"量化基金",p:"2027 年+",s:"远期",sc:"#4a90d9",items:[
+"基于 SaaS 平台积累的策略池和业绩记录进行合规募资",
+"接入机构资金，目标 AUM $1M+",
+"SaaS 平台作为策略孵化和用户触达的前置通道",
+"探索跨市场（传统金融衍生品）策略移植"
+]}];
+var pe=document.getElementById('phases');
+phases.forEach(function(p){pe.innerHTML+='<div class="phase-card"><div class="phase-header"><span class="badge" style="background:'+p.sc+'">'+p.s+'</span><span class="title">'+p.ph+'：'+p.t+'</span><span class="period">'+p.p+'</span></div><div class="phase-body"><ul>'+p.items.map(function(i){return '<li>'+i+'</li>'}).join('')+'</ul></div></div>'});
+</script>
+</body>
+</html>
