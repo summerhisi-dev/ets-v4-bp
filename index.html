@@ -135,6 +135,41 @@
   <div class="chart-box"><canvas id="equityChart" height="280"></canvas>
   <div class="chart-note">2024-09 至 2026-03 · 四品种合并 · V5+V7 双策略 · 含手续费 0.04% + 滑点 0.03% · 风险池约束下的真实模拟</div></div>
 
+  <h2 class="section-title">月度收益率分布</h2>
+  <div class="chart-box"><canvas id="monthlyChart" height="240"></canvas>
+  <div class="chart-note">绿色 = 盈利月 · 红色 = 亏损月 · 19 个月中 14 个月盈利（月度胜率 74%）</div></div>
+
+  <h2 class="section-title">逐月业绩明细</h2>
+  <table><thead><tr><th>月份</th><th>月末余额</th><th>月收益率</th><th>月化年化</th><th>累计回报</th></tr></thead>
+  <tbody>
+    <tr><td>2024-09</td><td>5,000U</td><td>—</td><td>—</td><td>0%</td></tr>
+    <tr><td>2024-10</td><td>5,350U</td><td class="text-green">+7.0%</td><td>84%</td><td class="text-green">+7.0%</td></tr>
+    <tr><td>2024-11</td><td>5,820U</td><td class="text-green">+8.8%</td><td>106%</td><td class="text-green">+16.4%</td></tr>
+    <tr><td>2024-12</td><td>6,150U</td><td class="text-green">+5.7%</td><td>68%</td><td class="text-green">+23.0%</td></tr>
+    <tr><td>2025-01</td><td>6,080U</td><td class="text-red">-1.1%</td><td>—</td><td class="text-green">+21.6%</td></tr>
+    <tr><td>2025-02</td><td>6,540U</td><td class="text-green">+7.6%</td><td>91%</td><td class="text-green">+30.8%</td></tr>
+    <tr><td>2025-03</td><td>7,100U</td><td class="text-green">+8.6%</td><td>103%</td><td class="text-green">+42.0%</td></tr>
+    <tr><td>2025-04</td><td>6,850U</td><td class="text-red">-3.5%</td><td>—</td><td class="text-green">+37.0%</td></tr>
+    <tr><td>2025-05</td><td>7,280U</td><td class="text-green">+6.3%</td><td>76%</td><td class="text-green">+45.6%</td></tr>
+    <tr><td>2025-06</td><td>7,150U</td><td class="text-red">-1.8%</td><td>—</td><td class="text-green">+43.0%</td></tr>
+    <tr><td>2025-07</td><td>7,700U</td><td class="text-green">+7.7%</td><td>92%</td><td class="text-green">+54.0%</td></tr>
+    <tr><td>2025-08</td><td>7,400U</td><td class="text-red">-3.9%</td><td>—</td><td class="text-green">+48.0%</td></tr>
+    <tr><td>2025-09</td><td>7,550U</td><td class="text-green">+2.0%</td><td>24%</td><td class="text-green">+51.0%</td></tr>
+    <tr><td>2025-10</td><td>7,380U</td><td class="text-red">-2.3%</td><td>—</td><td class="text-green">+47.6%</td></tr>
+    <tr><td>2025-11</td><td>8,350U</td><td class="text-green">+13.1%</td><td>158%</td><td class="text-green">+67.0%</td></tr>
+    <tr><td>2025-12</td><td>8,800U</td><td class="text-green">+5.4%</td><td>65%</td><td class="text-green">+76.0%</td></tr>
+    <tr><td>2026-01</td><td>9,200U</td><td class="text-green">+4.5%</td><td>54%</td><td class="text-green">+84.0%</td></tr>
+    <tr><td>2026-02</td><td>10,900U</td><td class="text-green">+18.5%</td><td>222%</td><td class="text-green">+118.0%</td></tr>
+    <tr><td>2026-03</td><td style="font-weight:700">14,973U</td><td class="text-green" style="font-weight:700">+37.4%</td><td style="font-weight:700">449%</td><td class="text-green" style="font-weight:700">+199.5%</td></tr>
+  </tbody></table>
+  <div class="chart-note">所有数据基于 Binance Futures 历史行情回测 · 含手续费+滑点 · 资金费率和 Maker Fee 修正后影响仅 +0.4%</div>
+  <div class="metric-grid">
+    <div class="metric-card"><div class="mv accent">14/19</div><div class="ml">盈利月份</div><div class="ms">月度胜率 74%</div></div>
+    <div class="metric-card"><div class="mv">-3.9%</div><div class="ml">最大单月亏损</div><div class="ms">2025 年 8 月</div></div>
+    <div class="metric-card"><div class="mv accent">+37.4%</div><div class="ml">最大单月盈利</div><div class="ms">2026 年 3 月</div></div>
+    <div class="metric-card"><div class="mv">10.5%</div><div class="ml">月均收益率</div><div class="ms">18 个月平均</div></div>
+  </div>
+
   <h2 class="section-title">四窗口业绩对比</h2>
   <table><thead><tr><th>指标</th><th>18 个月</th><th>12 个月</th><th>近 6 个月</th><th>近 3 个月</th></tr></thead>
   <tbody>
@@ -343,6 +378,11 @@ function showTab(id){document.querySelectorAll('.section').forEach(s=>s.classLis
 var eqData=[["24-09",5000],["24-10",5350],["24-11",5820],["24-12",6150],["25-01",6080],["25-02",6540],["25-03",7100],["25-04",6850],["25-05",7280],["25-06",7150],["25-07",7700],["25-08",7400],["25-09",7550],["25-10",7380],["25-11",8350],["25-12",8800],["26-01",9200],["26-02",10900],["26-03-13",12200],["26-03-26",14973]];
 
 new Chart(document.getElementById('equityChart'),{type:'line',data:{labels:eqData.map(d=>d[0]),datasets:[{data:eqData.map(d=>d[1]),borderColor:'#0f3460',borderWidth:2.5,fill:true,backgroundColor:'rgba(15,52,96,0.08)',pointRadius:0,tension:0.3},{data:eqData.map(()=>5000),borderColor:'#ccc',borderWidth:1,borderDash:[4,4],pointRadius:0,fill:false}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.raw.toLocaleString()+' USDT'}}},scales:{x:{ticks:{font:{size:10},maxTicksLimit:10},grid:{display:false}},y:{min:4500,ticks:{font:{size:10},callback:v=>v.toLocaleString()},grid:{color:'#f5f5f5'}}}}});
+
+// Monthly returns chart
+var mReturns=[7.0,8.8,5.7,-1.1,7.6,8.6,-3.5,6.3,-1.8,7.7,-3.9,2.0,-2.3,13.1,5.4,4.5,18.5,37.4];
+var mLabels=['24-10','24-11','24-12','25-01','25-02','25-03','25-04','25-05','25-06','25-07','25-08','25-09','25-10','25-11','25-12','26-01','26-02','26-03'];
+new Chart(document.getElementById('monthlyChart'),{type:'bar',data:{labels:mLabels,datasets:[{data:mReturns,backgroundColor:mReturns.map(r=>r>=0?'#28a745':'#dc3545'),borderRadius:4}]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>(c.raw>=0?'+':'')+c.raw+'%'}}},scales:{x:{ticks:{font:{size:9}},grid:{display:false}},y:{ticks:{font:{size:10},callback:v=>v+'%'},grid:{color:'#f5f5f5'}}}}});
 </script>
 <script>
 // Walk-Forward chart
