@@ -371,15 +371,38 @@
     <p>ETS V4 已经建成、测试完毕并在运行中。系统不缺资金——它需要的是<span class="highlight">对量化交易有深度理解、能带来行业资源和战略价值的合作伙伴</span>。</p>
     <p>我们对资本的筛选标准：</p>
     <p>① <strong>理解量化</strong>——能区分"回测收益"和"实盘预期"的区别，理解 Sharpe Ratio 和 Walk-Forward 验证的含义；</p>
-    <p>② <strong>长期主义</strong>——量化策略需要至少 3-6 个月的实盘验证周期，我们不接受"一个月不赚钱就撤"的短期资本；</p>
+    <p>② <strong>长期主义</strong>——量化策略需要实盘验证周期，我们不接受"一个月不赚钱就撤"的短期资本；</p>
     <p>③ <strong>战略协同</strong>——能在 SaaS 平台化阶段带来用户渠道、合规资源或技术基础设施的合作方优先。</p>
     <div class="story-quote">好项目不缺关注，缺的是匹配的伙伴。我们希望未来的合作者，是因为看懂了这套系统而来，而不是因为看到了一条漂亮的收益曲线。</div>
   </div>
   <h2 class="section-title">初始生态</h2>
   <div class="metric-grid">
     <div class="metric-card"><div class="mv accent">半山 AIX</div><div class="ml">实验室</div><div class="ms">AI 创业社区 · 东南亚华人生态</div></div>
-    <div class="metric-card"><div class="mv">$49-299</div><div class="ml">SaaS 月订阅定价</div><div class="ms">+ 利润分成 10-20%</div></div>
-    <div class="metric-card"><div class="mv">$1,200+</div><div class="ml">预计用户 LTV</div><div class="ms">12 个月留存</div></div>
+    <div class="metric-card"><div class="mv">1,000</div><div class="ml">首批限量会员</div><div class="ms">保障策略容量与执行质量</div></div>
+    <div class="metric-card"><div class="mv">199-299U/月</div><div class="ml">会员费 + 利润分成</div><div class="ms">10-20% 利润分成</div></div>
+  </div>
+
+  <h2 class="section-title">商业化前景与收益分析</h2>
+  <div class="story-block">
+    <h3>里程碑</h3>
+    <table class="data-table"><thead><tr><th>阶段</th><th>时间线</th><th>目标</th><th>关键指标</th></tr></thead><tbody>
+    <tr><td>实盘验证</td><td>1-3 个月</td><td>证明实盘可行性</td><td>Sharpe ≥ 1.5 / MaxDD ≤ 15%</td></tr>
+    <tr><td>首批会员</td><td>验证达标后</td><td>开放 1,000 账号</td><td>199-299U/月 + 利润分成</td></tr>
+    <tr><td>规模化</td><td>会员满额后</td><td>扩容至 5,000+</td><td>策略迭代 + 多策略矩阵</td></tr>
+    <tr><td>量化基金</td><td>远期</td><td>合规募资 AUM $1M+</td><td>SaaS 为策略孵化前置通道</td></tr>
+    </tbody></table>
+  </div>
+  <div class="story-block">
+    <h3>收益测算（1,000 会员满额）</h3>
+    <p>① <strong>会员费收入</strong>：199K — 299K USDT / 月（1,000 × 199-299U）</p>
+    <p>② <strong>利润分成收入</strong>：假设人均本金 5,000U、月化 8%、分成 15% → 月分成约 60K USDT</p>
+    <p>③ <strong>平台月收入</strong>：约 259K — 359K USDT</p>
+    <p>④ <strong>年化平台收入</strong>：约 3.1M — 4.3M USDT</p>
+    <p>⑤ <strong>边际成本极低</strong>：系统已建成，增量用户仅增加 API 调用和基础设施成本</p>
+  </div>
+  <div class="story-block">
+    <h3>市场前景</h3>
+    <p>全球加密合约日均交易量 500 亿+ USD，散户亏损率 90%。能提供经验证的 Sharpe > 2 自动化策略是<span class="highlight">稀缺供给</span>。限量模式在早期建立口碑和信任壁垒，为后续规模化和基金化打基础。</p>
   </div>
 </div>
 </div><!-- container end -->
@@ -420,17 +443,17 @@ layers.forEach(function(r){rl.innerHTML+='<div class="risk-layer"><div class="ta
 <script>
 // Phases
 var phases=[
-{ph:"第一阶段",t:"自营交易验证",p:"当前 — 2026 Q3",s:"进行中",sc:"#28a745",items:[
-"完成 Paper Trading 验证，切入真实资金实盘",
-"建立 3-6 个月可审计的实盘业绩记录（Track Record）",
-"持续策略迭代：OI（持仓量）因子接入、ML Regime 预测模型",
-"目标运营规模：10,000 — 50,000 USDT"
+{ph:"第一阶段",t:"实盘验证",p:"当前 — 1-3 个月",s:"进行中",sc:"#28a745",items:[
+"5,000U 本金切入真实资金实盘，验证回测到实盘的收益衰减率",
+"目标：实盘 Sharpe ≥ 1.5，月化 ≥ 5%，最大回撤 ≤ 15%",
+"建立可审计的实盘业绩记录（Track Record），达标后启动会员开放",
+"持续策略迭代：OI 因子接入、ML Regime 预测、多策略矩阵扩展"
 ]},
-{ph:"第二阶段",t:"SaaS 平台化",p:"2026 Q4 — 2027 Q2",s:"规划中",sc:"#f5a623",items:[
-"将交易引擎改造为多租户架构，支持多用户独立运行",
-"策略市场 + 一键部署 + 实时风控看板 + 业绩归因",
-"订阅制 $49-299/月 + 利润分成 10-20%",
-"初期聚焦东南亚华人交易者社区，依托半山 AIX 实验室生态获客"
+{ph:"第二阶段",t:"限量会员开放",p:"实盘达标后",s:"规划中",sc:"#f5a623",items:[
+"首批开放 1,000 个会员账号，限量保障策略容量和执行质量",
+"会员费 199-299 USDT/月 + 利润分成 10-20%",
+"用户通过 API 绑定自有 Binance 账户，系统自动跟单执行",
+"依托半山 AIX 实验室生态获客，聚焦东南亚华人交易者社区"
 ]},
 {ph:"第三阶段",t:"量化基金",p:"2027 年+",s:"远期",sc:"#4a90d9",items:[
 "基于 SaaS 平台积累的策略池和业绩记录进行合规募资",
